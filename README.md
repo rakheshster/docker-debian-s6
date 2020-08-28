@@ -1,4 +1,4 @@
-# docker-alpine-s6
+# docker-debian-s6
 ![Build & Push to DockerHub](https://github.com/rakheshster/docker-debian-s6/workflows/Buildx%20%26%20Push%20to%20DockerHub/badge.svg)
 ## What is this?
 This is a simple repo to create a Docker image with Debian (slim) and s6-overlay. 
@@ -13,4 +13,4 @@ In `buildx` the `$TARGETARCH` variable contains the architecture while the `$TAR
 
 The version numbers are of format `<debian version>-<s6 version>`. 
 
-[DockerHub repo](https://hub.docker.com/repository/docker/rakheshster/alpine-s6)
+[DockerHub repo](https://hub.docker.com/repository/docker/rakheshster/debian-s6)
