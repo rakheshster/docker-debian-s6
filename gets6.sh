@@ -33,6 +33,20 @@ case ${TARGETARCH} in
 esac
 
 # The default instructions give the impression one must do a 2-stage extract. That's only to target this issue - https://github.com/just-containers/s6-overlay#known-issues-and-workarounds
+# Download s6 to /tmp (-P says put it that location), download the s6 signature, compare, and extract if all good
+# Thanks to https://superuser.com/a/497971 for the gpg --status-fd trick
 wget https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-${ARCH}.tar.gz -P /tmp/ &&
-tar xzf /tmp/s6-overlay-${ARCH}.tar.gz -C / &&
-rm  -f /tmp/s6-overlay-${ARCH}.tar.gz
+wget https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-${ARCH}.tar.gz.sig -P /tmp/ &&
+gpg --status-fd 1 --verify /tmp/s6-overlay-${ARCH}.tar.gz.sig /tmp/s6-overlay-${ARCH}.tar.gz 2>/dev/null | grep -q "GOODSIG .*Just Containers Bot"
+
+# If the status check above has failed then exit
+if [[ $? -eq 0 ]]; then
+    echo "Tarball signature is good! Extracting."
+    tar xzf /tmp/s6-overlay-${ARCH}.tar.gz -C / &&
+    rm  -f /tmp/s6-overlay-${ARCH}.tar.gz &&
+    rm  -f /tmp/s6-overlay-${ARCH}.tar.gz.sig
+    exit 0
+else
+    echo "Tarball signature is bad! Exiting."
+    exit 1
+fi
