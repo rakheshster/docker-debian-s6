@@ -22,7 +22,7 @@ case ${TARGETARCH} in
         esac
         ;;
     arm64)
-	ARCH="aarch64"
+	    ARCH="aarch64"
 	;;
     386)
         ARCH="x86"
@@ -40,7 +40,8 @@ wget https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSI
 gpg --status-fd 1 --verify /tmp/s6-overlay-${ARCH}.tar.gz.sig /tmp/s6-overlay-${ARCH}.tar.gz 2>/dev/null | grep -q "GOODSIG .*Just Containers Bot"
 
 # If the status check above has failed then exit
-if [[ $? -eq 0 ]]; then
+# Note: Dash (in Debian) doesn't like the [[ ]] format
+if [ $? -eq 0 ]; then
     echo "Tarball signature is good! Extracting."
     tar xzf /tmp/s6-overlay-${ARCH}.tar.gz -C / &&
     rm  -f /tmp/s6-overlay-${ARCH}.tar.gz &&
