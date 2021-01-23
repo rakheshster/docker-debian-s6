@@ -3,7 +3,7 @@ ARG DEBIAN_VERSION=buster-slim
 FROM --platform=$TARGETPLATFORM debian:${DEBIAN_VERSION} AS debianbuild
 
 LABEL maintainer="Rakhesh Sasidharan"
-ENV S6_VERSION 2.2.0.0
+ENV S6_VERSION 2.2.0.1
 ARG TARGETARCH
 ARG TARGETVARIANT
 
