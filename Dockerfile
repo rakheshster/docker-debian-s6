@@ -29,6 +29,9 @@ RUN rm -rf /var/lib/{apt,dpkg,cache,log}/
 ARG DEBIAN_VERSION=buster-slim
 FROM --platform=$TARGETPLATFORM debian:${DEBIAN_VERSION}
 
+LABEL maintainer="Rakhesh Sasidharan"
+LABEL org.opencontainers.image.source=https://github.com/rakheshster/docker-debian-s6
+
 RUN rm -f /var/run 
 COPY --from=debianbuild / /
 
